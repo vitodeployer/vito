@@ -8,7 +8,9 @@ use App\Actions\Database\LinkUser;
 use App\Enums\SiteFeature;
 use App\Models\Database;
 use App\Models\DatabaseUser;
+use App\SSH\Services\Webserver\Webserver;
 use Closure;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Validation\Rule;
 
 class Wordpress extends AbstractSiteType
@@ -41,7 +43,7 @@ class Wordpress extends AbstractSiteType
             ],
             'database' => [
                 'required',
-                Rule::unique('databases', 'name')->where(function ($query) {
+                Rule::unique('databases', 'name')->where(function (Builder $query) {
                     return $query->where('server_id', $this->site->server_id);
                 }),
                 function (string $attribute, mixed $value, Closure $fail) {
@@ -52,7 +54,7 @@ class Wordpress extends AbstractSiteType
             ],
             'database_user' => [
                 'required',
-                Rule::unique('database_users', 'username')->where(function ($query) {
+                Rule::unique('database_users', 'username')->where(function (Builder $query) {
                     return $query->where('server_id', $this->site->server_id);
                 }),
             ],

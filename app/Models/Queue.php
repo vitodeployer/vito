@@ -8,20 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-/**
- * @property int $server_id
- * @property int $site_id
- * @property string $command
- * @property string $user
- * @property bool $auto_start
- * @property bool $auto_restart
- * @property int $numprocs
- * @property int $redirect_stderr
- * @property string $stdout_logfile
- * @property string $status
- * @property Server $server
- * @property Site $site
- */
 class Queue extends AbstractModel
 {
     use HasFactory;
@@ -83,11 +69,17 @@ class Queue extends AbstractModel
         return $value;
     }
 
+    /**
+     * @return BelongsTo<Server, $this>
+     */
     public function server(): BelongsTo
     {
         return $this->belongsTo(Server::class);
     }
 
+    /**
+     * @return BelongsTo<Site, $this>
+     */
     public function site(): BelongsTo
     {
         return $this->belongsTo(Site::class);
